@@ -64,7 +64,7 @@ git clone https://github.com/rmenai/animatronic.git
 
 The requirements are:
 
-* [Python](https://www.python.org/downloads/) and [Poetry](https://python-poetry.org/docs/)
+* [Python 3.8](https://www.python.org/downloads/) and [Poetry](https://python-poetry.org/docs/)
 * [FFmpeg](https://www.ffmpeg.org/)
 
 1. Install the dependencies
