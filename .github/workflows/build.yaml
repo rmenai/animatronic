@@ -1,0 +1,70 @@
+name: Build
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: The tag name of the release.
+        required: false
+        type: string
+
+jobs:
+  build:
+    # Make sure the pull request is merged or if the input is not empty.
+    if: ${{ github.event.pull_request.merged }} || ${{ github.event.inputs.tag }}
+    name: Build & Push
+    runs-on: ubuntu-latest
+
+    steps:
+      # Create a commit SHA-based tag for the container repositories.
+      - name: Create SHA Container Tag
+        id: sha_tag
+        run: |
+          tag=$(cut -c 1-7 <<< $GITHUB_SHA)
+          echo "::set-output name=tag::$tag"
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN  }}
+
+      # Build and push the container to the GitHub Container
+      # Repository. The container will be tagged as "latest"
+      # and with the short SHA of the commit.
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:latest
+          cache-to: type=inline
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ steps.sha_tag.outputs.tag }}
+
+      # Parse the tag using the regex `v[0-9].*`.
+      - name: Parse the release tag
+        id: release
+        run: |
+          echo "::set-output name=tag::$(grep 'v[0-9].*' <<< \
+          '${{ github.head_ref }} ${{ github.event.inputs.tag }}')"
+
+      - name: Create the release
+        uses: softprops/action-gh-release@v1
+        if: ${{ steps.release.outputs.tag }}
+        with:
+          tag_name: ${{ steps.release.outputs.tag }}
+          generate_release_notes: true
