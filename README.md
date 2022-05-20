@@ -1,13 +1,13 @@
 <br />
 <p align="center">
   <a href="https://github.com/rmenai/animatronic">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/2048px-Python-logo-notext.svg.png" alt="Logo" width="80" height="80">
+    <img src="./data/images/icon.ico" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Animatronic</h3>
 
   <p align="center">
-    Awesome animatronic created by rmenai
+    An advanced animatronic control panel
     <br />
     <a href="https://github.com/rmenai/animatronic"><strong>Explore the docs »</strong></a>
     <br />
@@ -29,7 +29,6 @@
     <li>
       <a href="#installation">Installation</a>
       <ul>
-        <li><a href="#using-docker">Using Docker</a></li>
         <li><a href="#for-development">For development</a></li>
       </ul>
     </li>
@@ -48,7 +47,8 @@
 
 ## About The Project
 
-Awesome animatronic created by rmenai.
+This is an advanced animatronic control panel grouping multiple features such as:
+- An audio visualizer rotating a servo in relation with the volume.
 
 <!-- INSTALLATION -->
 
@@ -60,19 +60,12 @@ The first step will be to clone the repo
 git clone https://github.com/rmenai/animatronic.git
 ```
 
-### Using Docker
-
-Using Docker is generally recommended (but not strictly required) because it abstracts away some additional set up work.
-
-The requirements for Docker are:
-
-* [Docker CE](https://docs.docker.com/install/)
-
 ### For development
 
 The requirements are:
 
 * [Python](https://www.python.org/downloads/) and [Poetry](https://python-poetry.org/docs/)
+* [FFmpeg](https://www.ffmpeg.org/)
 
 1. Install the dependencies
    ```shell
