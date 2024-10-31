@@ -50,6 +50,8 @@
 This is an advanced animatronic control panel grouping multiple features such as:
 - An audio visualizer rotating a servo in relation with the volume.
 
+![Preview](./preview.png)
+
 <!-- INSTALLATION -->
 
 ## Installation
